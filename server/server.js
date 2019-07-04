@@ -44,7 +44,7 @@ app.post('/api/turn', (req, res, next) => {
   res.json({'board': state.board})
   next()
 }, (req, res) => {
-  io.sockets.emit('next-player')
+  io.sockets.emit('game-update')
 })
 
 app.get('/api/game-state', (req, res) => {
@@ -55,8 +55,7 @@ app.get('/api/game-state', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-  console.log('client connected')
-  console.log(socket)
+  socket.emit('game-update')
 })
 
 
