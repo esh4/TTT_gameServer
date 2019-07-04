@@ -5,7 +5,10 @@ class Board{
         
     }
 
-    takeTurn(i) {
+    takeTurn(i, player) {
+        if (player !== (this.xIsNext? 'X' : 'O')){
+            throw 'Wrong player'
+        }
         const squares = this.squares.slice();
         if (this.calculateWinner(squares) || squares[i]) {
             return;
