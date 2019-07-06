@@ -33,8 +33,11 @@ var state = {
 }
 
 app.post('/api/turn', (req, res, next) => {
+  console.log(req.body)
   try{
-    state.board.takeTurn(req.body.location, req.body.player)}
+    state.board.takeTurn(req.body.location, req.body.player)
+    io.sockets.emit('game-update')
+  }
   catch(e){
     res.status(406) //Not ur turn...
     console.log(e)
@@ -44,7 +47,6 @@ app.post('/api/turn', (req, res, next) => {
   res.json({'board': state.board})
   next()
 }, (req, res) => {
-  io.sockets.emit('game-update')
 })
 
 app.get('/api/game-state', (req, res) => {
@@ -55,6 +57,7 @@ app.get('/api/game-state', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+  console.log('connection')
   socket.emit('game-update')
 })
 
