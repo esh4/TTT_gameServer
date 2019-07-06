@@ -56,6 +56,11 @@ app.get('/api/game-state', (req, res) => {
   })
 })
 
+app.post('/api/reset', (req, res) => {
+  state.board = new Board()
+  io.sockets.emit('game-update')
+})
+
 io.on('connection', (socket) => {
   console.log('connection')
   socket.emit('game-update')
